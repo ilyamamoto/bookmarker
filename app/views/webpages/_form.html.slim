@@ -1,0 +1,21 @@
+= form_for @webpage, :html => { :class => "form-horizontal" } do |f|
+  .control-group
+    = f.label :url, :class => 'control-label'
+    .controls
+      = f.text_field :url, :class => 'text_field'
+  .control-group
+    = f.label :title, :class => 'control-label'
+    .controls
+      = f.text_field :title, :class => 'text_field'
+  .control-group
+    = f.label :html, :class => 'control-label'
+    .controls
+      = f.text_field :html, :class => 'text_field'
+  .control-group
+    = f.label :content, :class => 'control-label'
+    .controls
+      = f.text_field :content, :class => 'text_field'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    '
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), webpages_path, :class => 'btn'
