@@ -14,30 +14,30 @@
 ActiveRecord::Schema.define(version: 20140618112342) do
 
   create_table "keywords", force: true do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "pages", force: true do |t|
-    t.text     "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "keywords", ["name"], name: "index_keywords_on_name", unique: true, using: :btree
 
   create_table "relationships", force: true do |t|
-    t.integer  "keyword_id"
-    t.integer  "page_id"
-    t.decimal  "significance", precision: 10, scale: 0
+    t.integer  "keyword_id",                            null: false
+    t.integer  "webpage_id",                            null: false
+    t.decimal  "significance", precision: 10, scale: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "relationships", ["keyword_id"], name: "index_relationships_on_keyword_id", using: :btree
+  add_index "relationships", ["webpage_id", "keyword_id"], name: "index_relationships_on_webpage_id_and_keyword_id", unique: true, using: :btree
+  add_index "relationships", ["webpage_id"], name: "index_relationships_on_webpage_id", using: :btree
+
   create_table "webpages", force: true do |t|
-    t.text     "url"
-    t.string   "title"
-    t.text     "html"
-    t.text     "content"
+    t.text     "url",        null: false
+    t.string   "title",      null: false
+    t.text     "html",       null: false
+    t.text     "content",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
