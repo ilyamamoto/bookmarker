@@ -1,4 +1,4 @@
-class PagesController < ApplicationController
+class WebpagesController < ApplicationController
 	def index
 		@pages = Page.all
 	end
