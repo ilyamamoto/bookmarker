@@ -3,6 +3,10 @@ class WebpagesController < ApplicationController
 		@pages = Page.all
 	end
 
+	def show
+		
+	end
+
 	def new
 		@page = Page.new
 

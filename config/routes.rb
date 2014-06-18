@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-	resources :webpages
-	resources :keywords
-	resources :relationships
+	resources :webpages, only: [:create, :index, :show, :destroy]
+	resources :keywords, only: [:create, :destroy]
+	resources :relationships, only: [:create, :destroy]
 
 
   # Example of regular route:
