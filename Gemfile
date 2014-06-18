@@ -16,6 +16,15 @@ gem 'bootstrap-will_paginate', '0.0.9'
 
 gem 'capistrano', '3.2.1'
 
+# slim
+gem 'slim', '2.0.2'
+gem 'slim-rails', '2.1.5' 
+
+# bootstrap
+gem 'therubyracer', '0.12.1'
+gem 'less-rails', '2.5.0'
+gem 'twitter-bootstrap-rails', '2.2.8'
+
 group :development, :test do
 	gem 'rspec-rails', '2.13.1'
 	gem 'guard-rspec', '2.1.0'
