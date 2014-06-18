@@ -1,15 +1,14 @@
 class WebpagesController < ApplicationController
 	def index
-		@pages = Page.all
-	end
-
-	def show
-		
+		@webpages = Webpage.all
 	end
 
 	def new
-		@page = Page.new
+		@webpage = Webpage.new
+	end
 
+	def show
+		@webpage = Webpage.find(params[:id])	
 	end
 
 	def create
