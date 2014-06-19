@@ -1,5 +1,39 @@
 require 'spec_helper'
 
-describe WebpagesController do
+describe "WebpagesController" do
+	subject { page }
+
+	describe "RESTful routing" do
+		let(:webpage) { FactoryGirl.create(:webpage) }
+		describe "#new" do
+			before { visit new_webpage_path }
+
+			it "should have right view" do
+				should have_content( 'Add Webpage' )
+			end
+		end
+
+		describe "#create" do
+			
+		end
+
+		describe "#index" do
+			before { visit webpages_path }
+
+			it "should have correct content" do
+				should have_content( 'Webpages' )
+			end
+
+		end
+
+		describe "#show" do
+
+		end
+
+		describe "#delete" do
+
+		end
+
+	end
 
 end

@@ -8,6 +8,10 @@ Rails.application.routes.draw do
 	resources :relationships, only: [:create, :destroy]
 
 
+	root  'webpages#index'
+	match '/add', to: 'webpages#new', via: 'get'
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

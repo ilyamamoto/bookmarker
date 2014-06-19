@@ -1,6 +1,7 @@
 - model_class = Webpage
+- provide :title, 'Pages'
 div class="page-header"
-  h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
+  h1 Webpages
 table class="table table-striped"
   thead
     tr
