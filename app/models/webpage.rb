@@ -34,7 +34,7 @@ class Webpage < ActiveRecord::Base
 	end
 
 	def get_content
-		self.content = "a"
+		self.content = self.html # tentative, for extractcontent seems not available
 		self
 	end
 

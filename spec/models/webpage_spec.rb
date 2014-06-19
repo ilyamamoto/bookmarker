@@ -43,6 +43,8 @@ describe Webpage do
 			end
 
 			describe "when HTTP access failed" do
+				before { webpage.fetch }
+				it { should be_valid, unless: false }
 			end
 		end
 	end
