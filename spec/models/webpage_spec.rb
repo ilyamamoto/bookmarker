@@ -41,6 +41,9 @@ describe Webpage do
 				before { webpage.url = "example.com" }
 				it { should_not be_valid }
 			end
+
+			describe "when HTTP access failed" do
+			end
 		end
 	end
 

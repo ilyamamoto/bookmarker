@@ -1,38 +1,35 @@
 require 'spec_helper'
 
-describe "WebpagesController" do
+describe WebpagesController do
 	subject { page }
 
-	describe "RESTful routing" do
-		describe "#new" do
-			before { visit new_webpage_path }
-
-			it "should have right view" do
-				should have_content('Add Webpage')
-				should have_xpath('//input[@id="webpage_url"]')
-				should have_button('Add')
-			end
+	shared_examples "available" do |args|
+		before { get args }
+		
+		it "responds successfully with an HTTP 200 status code" do
+			expect(response).to be_success
+			expect(response.status).to eq 200
 		end
 
-		describe "#create" do
-			
+		it "renders the template" do
+			expect(response).to render_template(args)
 		end
+	end
 
-		describe "#index" do
-			before { visit webpages_path }
+	describe "GET #index" do
+		it_should_behave_like "available", :index
+	end
 
-			it "should have correct content" do
-				should have_content( 'Webpages' )
-			end
+	describe "GET #show" do
+		pending { it_should_behave_like "available", :show, 2 }
+	end
 
-		end
+	describe "GET #new" do
+		before { get :new }
+		specify { expect(response.status).to eq 200 }
+	end
 
-		describe "#show" do
-
-		end
-
-		describe "#delete" do
-
-		end
+	describe "GET #create" do
+		before { get :create }
 	end
 end

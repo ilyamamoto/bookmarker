@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
 	resources :webpages, only: [:new, :index, :show, :create, :destroy]
-	resources :keywords, only: [:index, :show, :create, :destroy]
+	resources :keywords, only: [:index, :show]
 	resources :relationships, only: [:create, :destroy]
 
 
