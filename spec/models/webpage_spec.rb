@@ -21,6 +21,11 @@ describe Webpage do
 				should respond_to(:get_keywords)
 				should respond_to(:score_keyword)
 			end
+
+			it "should respond to association methods" do
+				should respond_to(:relationships)
+				should respond_to(:keywords)
+			end
 		end
 
 		describe "validation" do

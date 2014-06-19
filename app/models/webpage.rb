@@ -4,6 +4,8 @@ require 'nokogiri'
 #require 'extractcontent'
 
 class Webpage < ActiveRecord::Base
+	has_many :relationships, dependent: :destroy
+	has_many :keywords, through: :relationships
 
 	validates :url, presence: true
 	validate :url_should_be_valid
@@ -11,14 +13,12 @@ class Webpage < ActiveRecord::Base
 	after_initialize :fill_from_url,
 		if: Proc.new { |webpage| !webpage.url.nil? }
 
-
 	def fill_from_url
-		self
-			.fetch
-			.get_title
-			.get_content
-			.analyze_morphene
-			.analyze_kakariuke
+		self.fetch
+				.get_title
+				.get_content
+				.analyze_morphene
+				.analyze_kakariuke
 	end
 
 	def fetch
