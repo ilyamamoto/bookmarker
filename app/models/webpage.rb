@@ -4,12 +4,15 @@ require 'nokogiri'
 #require 'extractcontent'
 
 class Webpage < ActiveRecord::Base
+
 	validates :url, presence: true
-	validate  :url_should_be_valid
+	validate :url_should_be_valid
 
-	#attr_accessor :html, :title, :content
+	after_initialize :fill_from_url,
+		if: Proc.new { |webpage| !webpage.url.nil? }
 
-	after_initialize do
+
+	def fill_from_url
 		self
 			.fetch
 			.get_title
@@ -19,7 +22,6 @@ class Webpage < ActiveRecord::Base
 	end
 
 	def fetch
-	# fetch page html source
 		@html_raw = open(self.url).read
 		self.html = URI.escape(@html_raw)
 		self
@@ -32,7 +34,6 @@ class Webpage < ActiveRecord::Base
 	end
 
 	def get_content
-	# extract content
 		self.content = "a"
 		self
 	end
@@ -56,8 +57,9 @@ class Webpage < ActiveRecord::Base
 	private
 
 		def url_should_be_valid
-			if url.nil? || !URI.parse(url).kind_of?(URI::HTTP)
+			if !URI.parse(url).kind_of?(URI::HTTP)
 				errors.add(:url, "is invalid")
 			end
 		end
+
 end

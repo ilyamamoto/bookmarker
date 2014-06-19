@@ -25,6 +25,9 @@ gem 'therubyracer', '0.12.1'
 gem 'less-rails', '2.5.0'
 gem 'twitter-bootstrap-rails', '2.2.8'
 
+# html analysis
+gem 'nokogiri', '1.6.2.1'
+
 group :development, :test do
 	gem 'rspec-rails', '2.13.1'
 	gem 'guard-rspec', '2.1.0'

@@ -4,7 +4,6 @@ describe "WebpagesController" do
 	subject { page }
 
 	describe "RESTful routing" do
-		let(:webpage) { FactoryGirl.create(:webpage) }
 		describe "#new" do
 			before { visit new_webpage_path }
 

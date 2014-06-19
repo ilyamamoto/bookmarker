@@ -300,6 +300,7 @@ DEPENDENCIES
   launchy
   less-rails (= 2.5.0)
   mysql2 (~> 0.3.16)
+  nokogiri (= 1.6.2.1)
   pg (= 0.15.1)
   pry
   pry-debugger
