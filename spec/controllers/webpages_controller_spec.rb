@@ -8,7 +8,9 @@ describe "WebpagesController" do
 			before { visit new_webpage_path }
 
 			it "should have right view" do
-				should have_content( 'Add Webpage' )
+				should have_content('Add Webpage')
+				should have_xpath('//input[@id="webpage_url"]')
+				should have_button('Add')
 			end
 		end
 
@@ -32,7 +34,5 @@ describe "WebpagesController" do
 		describe "#delete" do
 
 		end
-
 	end
-
 end

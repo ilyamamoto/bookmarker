@@ -23,8 +23,8 @@ describe Webpage do
 			end
 
 			it "should respond to association methods" do
-				should respond_to(:relationships)
-				should respond_to(:keywords)
+				should respond_to(:relationships) # has_many
+				should respond_to(:keywords)			# has_many through
 			end
 		end
 
