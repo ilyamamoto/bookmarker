@@ -257,6 +257,7 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     temple (0.6.7)
+    tfidf_ja (0.2.1)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -326,6 +327,7 @@ DEPENDENCIES
   slim-rails (= 2.1.5)
   spork-rails (= 4.0.0)
   sprockets (= 2.11.0)
+  tfidf_ja (= 0.2.1)
   therubyracer (= 0.12.1)
   turbolinks (= 1.1.1)
   twitter-bootstrap-rails (= 2.2.8)

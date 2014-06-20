@@ -31,6 +31,7 @@ gem 'extractcontent', :git => 'https://github.com/mono0x/extractcontent.git'
 
 # text analysis
 gem 'natto', '0.9.6'
+gem 'tfidf_ja', '0.2.1'
 
 group :development, :test do
 	gem 'rspec-rails', '2.13.1'

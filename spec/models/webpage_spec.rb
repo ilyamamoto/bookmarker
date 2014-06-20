@@ -16,10 +16,11 @@ describe Webpage do
 			it "should respond to instance methods" do
 				should respond_to(:fetch)
 				should respond_to(:get_content)
-				should respond_to(:analyze_morphene)
+				should respond_to(:analyze_morpheme)
+				should respond_to(:analyze_tfidf)
 				should respond_to(:analyze_kakariuke)
 				should respond_to(:get_keywords)
-				should respond_to(:score_keyword)
+				should respond_to(:score_keywords)
 			end
 
 			it "should respond to association methods" do

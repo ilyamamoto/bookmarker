@@ -1,9 +1,9 @@
 require 'open-uri'
 require 'nokogiri'
 require 'bundler/setup'; require 'extractcontent'
-#require 'MeCab'
-#require 'mecab/ext'
 require 'natto'
+require 'tfidf_ja'
+#require 'tf_idf'
 
 class Webpage < ActiveRecord::Base
 	has_many :relationships, dependent: :destroy
@@ -19,8 +19,10 @@ class Webpage < ActiveRecord::Base
 		self.fetch
 				.get_title
 				.get_content
-				.analyze_morphene
+				.analyze_morpheme
 				.analyze_kakariuke
+				.get_keywords
+				.score_keywords
 				.save
 	end
 
@@ -43,12 +45,18 @@ class Webpage < ActiveRecord::Base
 		self
 	end
 
-	def analyze_morphene
+	def analyze_morpheme
+		@morphemes = nil
 		natto = Natto::MeCab.new
-		natto.parse(self.content) do |n|
-			print "#{n.surface} / "
-			#puts "#{n.surface}\t#{n.feature}"
-		end
+		@morphemes = natto.parse_as_nodes(self.content)
+		p @morphemes
+		self
+	end
+	
+	def analyze_tfidf
+		tfidf = TfIdf::Ja.new
+		p tfidf.tfidf(@words)
+
 		self
 	end
 
@@ -57,10 +65,15 @@ class Webpage < ActiveRecord::Base
 	end
 
 	def get_keywords
+		# @morphenes.each do |morphene|
+		# 	name = morphene.surface
+		# 	keyword = Keyword.new(name)
+		# 	if keyword.save
+		# 		relationship = Relationship.new(self.id, keyword.id)
 		self
 	end
 
-	def score_keyword
+	def score_keywords
 		self
 	end
 
