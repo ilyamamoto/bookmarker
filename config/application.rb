@@ -28,6 +28,6 @@ module Bookmarker
     # config.i18n.default_locale = :de
 
 		# for mecab
-		config.autoload_paths << "/usr/local/Library/Formula"
+		#config.autoload_paths << "/usr/local/Library/Formula"
   end
 end

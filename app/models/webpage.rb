@@ -1,8 +1,9 @@
 require 'open-uri'
 require 'nokogiri'
 require 'bundler/setup'; require 'extractcontent'
-require 'MeCab'
-require 'mecab/ext'
+#require 'MeCab'
+#require 'mecab/ext'
+require 'natto'
 
 class Webpage < ActiveRecord::Base
 	has_many :relationships, dependent: :destroy
@@ -36,13 +37,18 @@ class Webpage < ActiveRecord::Base
 	end
 
 	def get_content
-		content, title = ExtractContent.analyse(self.html)
+		content, title = ExtractContent.analyse(@html_raw)
 		self.content = content 
 		self.title ||= title
 		self
 	end
 
 	def analyze_morphene
+		natto = Natto::MeCab.new
+		natto.parse(self.content) do |n|
+			print "#{n.surface} / "
+			#puts "#{n.surface}\t#{n.feature}"
+		end
 		self
 	end
 
