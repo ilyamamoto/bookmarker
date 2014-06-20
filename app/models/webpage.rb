@@ -1,7 +1,8 @@
 require 'open-uri'
 require 'nokogiri'
-#require 'bundler/setup'
-#require 'extractcontent'
+require 'bundler/setup'; require 'extractcontent'
+require 'MeCab'
+require 'mecab/ext'
 
 class Webpage < ActiveRecord::Base
 	has_many :relationships, dependent: :destroy
@@ -19,6 +20,7 @@ class Webpage < ActiveRecord::Base
 				.get_content
 				.analyze_morphene
 				.analyze_kakariuke
+				.save
 	end
 
 	def fetch
@@ -34,7 +36,9 @@ class Webpage < ActiveRecord::Base
 	end
 
 	def get_content
-		self.content = self.html # tentative, for extractcontent seems not available
+		content, title = ExtractContent.analyse(self.html)
+		self.content = content 
+		self.title ||= title
 		self
 	end
 

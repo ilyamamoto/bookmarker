@@ -27,6 +27,10 @@ gem 'twitter-bootstrap-rails', '2.2.8'
 
 # html analysis
 gem 'nokogiri', '1.6.2.1'
+gem 'extractcontent', :git => 'https://github.com/mono0x/extractcontent.git'
+
+# text analysis
+gem 'mecab-ext', '1.0.2'
 
 group :development, :test do
 	gem 'rspec-rails', '2.13.1'
