@@ -21,6 +21,8 @@ describe Webpage do
 				should respond_to(:analyze_kakariuke)
 				should respond_to(:get_keywords)
 				should respond_to(:score_keywords)
+				should respond_to(:save_keywords)
+				should respond_to(:save_relationships)
 			end
 
 			it "should respond to association methods" do
@@ -45,7 +47,7 @@ describe Webpage do
 
 			describe "when HTTP access failed" do
 				before { webpage.fetch }
-				it { should be_valid, unless: false }
+				#it { should be_valid, unless: false }
 			end
 		end
 	end
@@ -74,12 +76,29 @@ describe Webpage do
 		end
 	end
 
-	describe "instance only with url" do
+	describe "instance methods" do
+		#let(:webpage) { FactoryGirl.build(:webpage_only_with_url) } # not working cause FactoryGirl executes no callbacks 
 		let(:webpage) { Webpage.new(url: "http://example.com") }
-		it "should get :html, :title, :content filled" do
-			expect(webpage.html).not_to be_blank
-			expect(webpage.title).not_to be_blank
-			expect(webpage.content).not_to be_blank
+		
+		describe "#fill_from_url (after_initialize)" do
+			it "should get :html, :title, :content filled" do
+				expect(webpage.html).not_to be_blank
+				expect(webpage.title).not_to be_blank
+				expect(webpage.content).not_to be_blank
+			end
 		end
+
+		describe "save" do
+
+		end
+
+		describe "save_keywords" do
+
+		end
+
+		describe "save_relationships" do
+
+		end
+
 	end
 end
