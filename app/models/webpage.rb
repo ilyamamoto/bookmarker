@@ -11,79 +11,87 @@ class Webpage < ActiveRecord::Base
 	validates :url, presence: true
 	validate :url_should_be_valid
 
-	after_initialize :fill_from_url,
+	after_initialize :register,
 		if: Proc.new { |webpage| !webpage.url.nil? }
 
 	@@natto = Natto::MeCab.new
 	@@tfidf = TfIdf::Ja.new
 
+	def register
+		fetch
+		get_content
+		save
+	end
+
+	def analyze
+		analyze_morpheme
+		set_keywords
+		analyze_tfidf
+		analyze_kakariuke
+		save_keywords_and_relationships
+	end
+
 	private
-		def fill_from_url
-			self.fetch
-					.get_title
-					.get_content
-					.analyze_morpheme
-					.analyze_kakariuke
-					.get_keywords
-					.score_keywords
-					.save
-		end
 
 		def fetch
 			@html_raw = open(self.url).read
 			self.html = URI.escape(@html_raw)
-			self
 		end
 		
-		def get_title
+		def get_title # deprecated: covered by #get_content
 			@domtree = Nokogiri::HTML(@html_raw)
 			self.title = @domtree.xpath('//title').text
-			self
 		end
 
 		def get_content
 			content, title = ExtractContent.analyse(@html_raw)
 			self.content = content 
 			self.title ||= title
-			self
 		end
 
 		def analyze_morpheme
-			@morphemes = nil
 			@morphemes = @@natto.parse_as_nodes(self.content)
-			self
 		end
 		
+		def set_keywords
+			@words = @morphemes.map{ |n| n.surface }.uniq
+		end
+
 		def analyze_tfidf
-			@@tfidf.tfidf(@words)
-			self
+			t = @@tfidf.tfidf( @morphemes.map{ |n| n.surface } )
+			@words = @words.map{ |w| { surface: w, tfidf: t[w] } }
 		end
 
 		def analyze_kakariuke
-			self
 		end
 
-		def get_keywords
-			self
+		def score_keyword(tfidf)
+			# tentatively: score(significance) is equal to tfidf score
+			tfidf
 		end
 
-		def score_keywords
-			self
-		end
-
-		def save_keywords
-			@morphemes.each do |morpheme|
-				Keyword.new(name: morpheme.surface).save
+		def save_keywords_and_relationships
+			@words.each do |w|
+				next if w[:surface].blank?
+				keyword = save_keyword(w[:surface])
+				save_relationship(keyword, score_keyword(w[:tfidf]))
 			end
-				#if keyword.save
-				#	relationship = Relationship.new(self.id, keyword.id)
 		end
 
-		def save_relationships
-			self.keywords.each do |keyword|
-				Relationship.new(self.id, keyword.id).save
-			end
-			self.relationships
+		def save_keyword(name)
+			Keyword.find_by!(name: name)
+		rescue ActiveRecord::RecordNotFound
+			Keyword.create!(name: name)
+		end
+
+		def save_relationship(keyword, significance)
+			Relationship.create(
+				webpage_id: self.id,
+				keyword_id: keyword.id,
+				significance: significance
+			)
+		rescue ActiveRecord::RecordNotUnique
+			# the case relationship b/w self and keyword already established
 		end
 
 		def url_should_be_valid

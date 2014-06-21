@@ -14,15 +14,8 @@ describe Webpage do
 			end
 
 			it "should respond to instance methods" do
-				should respond_to(:fetch)
-				should respond_to(:get_content)
-				should respond_to(:analyze_morpheme)
-				should respond_to(:analyze_tfidf)
-				should respond_to(:analyze_kakariuke)
-				should respond_to(:get_keywords)
-				should respond_to(:score_keywords)
-				should respond_to(:save_keywords)
-				should respond_to(:save_relationships)
+				should respond_to(:register)
+				should respond_to(:analyze)
 			end
 
 			it "should respond to association methods" do
@@ -46,8 +39,9 @@ describe Webpage do
 			end
 
 			describe "when HTTP access failed" do
-				before { webpage.fetch }
+				before { webpage.register }
 				#it { should be_valid, unless: false }
+				#it should do asynchronous access
 			end
 		end
 	end
@@ -56,7 +50,7 @@ describe Webpage do
 		let(:webpage) { FactoryGirl.build(:webpage) }
 
 		describe "create record" do
-			specify { expect{ webpage.save }.not_to raise_error } 
+			specify { expect{ webpage.save }.not_to raise_error }
 		end
 
 		describe "read record" do
@@ -77,28 +71,32 @@ describe Webpage do
 	end
 
 	describe "instance methods" do
-		#let(:webpage) { FactoryGirl.build(:webpage_only_with_url) } # not working cause FactoryGirl executes no callbacks 
-		let(:webpage) { Webpage.new(url: "http://example.com") }
-		
-		describe "#fill_from_url (after_initialize)" do
+		describe "#register" do
+			let(:webpage) { Webpage.new(url: "http://example.com") }
 			it "should get :html, :title, :content filled" do
 				expect(webpage.html).not_to be_blank
 				expect(webpage.title).not_to be_blank
 				expect(webpage.content).not_to be_blank
 			end
+
+			it "should save to database" do
+				expect do
+					Webpage.new(url: "http://example.com")
+				end.to change(Webpage, :count).by(1)
+			end
+
+			# it "should not execute javascript but omit it from html source code" do end
 		end
 
-		describe "save" do
-
+		describe "#analyze" do
+			let!(:webpage) { Webpage.create(url: "http://example.com") }
+			before { webpage.analyze }
+			it "should save Keyword and Relationship object to database" do
+				relationship = Relationship.find_by(webpage_id: webpage.id)
+				expect(relationship).not_to be_nil
+				expect(Keyword.find_by(id: relationship.keyword.id)).not_to be_nil
+				#expect significance not integer but decimal
+			end
 		end
-
-		describe "save_keywords" do
-
-		end
-
-		describe "save_relationships" do
-
-		end
-
 	end
 end
