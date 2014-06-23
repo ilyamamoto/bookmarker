@@ -16,6 +16,7 @@ class WebpagesController < ApplicationController
 
 	def index
 		@webpage_new = Webpage.new
+		@keyword_show = Keyword.new
 		@webpages = Webpage.all
 	end
 

@@ -6,7 +6,7 @@ html {
 	overflow-y: scroll;
 }
 body {
-	padding-top: 60px;
+	padding-top: 30px;
 }
 .table {
 	td {
@@ -18,7 +18,14 @@ form.form-add-webpage {
 }
 
 form.navbar-form {
-	button {
+	.btn {
 		margin-left: 2px;
 	}
+	.btn #keyword_name {
+		width: 400px;
+	}
+}
+
+.table > tbody > tr > td {
+	vertical-align: middle;
 }

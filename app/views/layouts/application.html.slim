@@ -36,43 +36,18 @@ html lang="en"
               li
                 a href="keywords" Keywords
            
-          form.navbar-form.navbar-right role="form"
+          = form_for @webpage_new, html: { class: "navbar-form navbar-right", role: "form" } do |f|
             .form-group
-              input.form-control type='text' placeholder='Search Keyword'
-              button.btn.btn-default type='submit' Search 
+              = f.text_field :url, class: 'form-control', type: 'text', placeholder: 'Search Keyword'
+              = f.submit 'Search', class: 'btn btn-default', type: 'submit'
         
-          form.navbar-form.navbar-right role="form"
+          = form_for @keyword_show, html: { class: 'navbar-form navbar-right', role: 'form' } do |f|
             .form-group
-              input.form-control.col-md-6 type='text' placeholder='Enter URL to Add'
-              button.btn.btn-default type='submit' Add 
+              = f.text_field :name, class: 'form-control col-md-6', type: 'text', placeholder: 'Enter URL to Add'
+              = f.submit 'Add', class: 'btn btn-default', type: 'submit'
        
 
-
-
-
-    /.navbar-form.navbar-left role="search"
-      div.form-group
-        input.form-control type='text' placeholder='search'
-      button.btn.btn-default type='Submit'
-        | Submit
-
-    /.navbar.navbar-fixed-top
-      .navbar-inner
-        .container
-          a.btn.btn-navbar data-target=".nav-collapse" data-toggle="collapse"
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.brand href="#"Bookmarker
-          .container.nav-collapse
-            ul.nav
-              li= link_to "Webpages", webpages_path
-              li= link_to "Keywords", keywords_path 
-
     .container
-      .row
-        = render 'shared/form_add_webpage', label_submit: "Add"
-
       .row
         - flash.each do |key, value|
           = content_tag(:div, value, class: "alert alert-#{key}")
