@@ -6,7 +6,7 @@ gem 'rails', '4.0.5'
 gem 'pg', '0.15.1'
 gem 'mysql2', '~> 0.3.16'
 
-gem 'bootstrap-sass', '2.3.2.0'
+#gem 'bootstrap-sass', '2.3.2.0'
 gem 'sprockets', '2.11.0'
 
 gem 'bcrypt-ruby', '3.1.2', :require => 'bcrypt'
@@ -21,9 +21,7 @@ gem 'slim', '2.0.2'
 gem 'slim-rails', '2.1.5' 
 
 # bootstrap
-gem 'therubyracer', '0.12.1'
-gem 'less-rails', '2.5.0'
-gem 'twitter-bootstrap-rails', '2.2.8'
+gem 'bootstrap-sass', '~> 3.1.1' # 'sass-rails' should be higher than 3.2
 
 # html analysis
 gem 'nokogiri', '1.6.2.1'
