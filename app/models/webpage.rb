@@ -11,8 +11,8 @@ class Webpage < ActiveRecord::Base
 	validates :url, presence: true
 	validate :url_should_be_valid
 
-	after_initialize :register,
-		if: Proc.new { |webpage| !webpage.url.nil? }
+	#after_initialize :register,
+	#	if: Proc.new { |webpage| !webpage.url.nil? }
 
 	@@natto = Natto::MeCab.new
 	@@tfidf = TfIdf::Ja.new

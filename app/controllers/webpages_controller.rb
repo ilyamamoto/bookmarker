@@ -17,7 +17,8 @@ class WebpagesController < ApplicationController
 	def index
 		@webpage_new = Webpage.new
 		@keyword_show = Keyword.new
-		@webpages = Webpage.all
+		@webpages = Webpage.select(:id, :url, :title, :created_at)
+		.paginate(page: params[:page], per_page: 10)
 	end
 
 	def show

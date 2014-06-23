@@ -6,7 +6,7 @@ html {
 	overflow-y: scroll;
 }
 body {
-	padding-top: 30px;
+	padding-top: 50px;
 }
 .table {
 	td {
@@ -28,4 +28,8 @@ form.navbar-form {
 
 .table > tbody > tr > td {
 	vertical-align: middle;
+}
+
+ul.pagination {
+	margin: 0 0 10px 0;
 }

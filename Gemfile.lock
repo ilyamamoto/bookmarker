@@ -47,7 +47,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
-    bootstrap-will_paginate (0.0.9)
+    bootstrap-will_paginate (0.0.10)
       will_paginate
     builder (3.1.4)
     capistrano (3.2.1)
@@ -129,11 +129,11 @@ GEM
     json (1.8.1)
     launchy (2.4.2)
       addressable (~> 2.3)
-    listen (2.7.8)
+    listen (2.7.9)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
-    lumberjack (1.0.6)
+    lumberjack (1.0.7)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -277,7 +277,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.1.1)
-  bootstrap-will_paginate (= 0.0.9)
+  bootstrap-will_paginate (= 0.0.10)
   capistrano (= 3.2.1)
   capybara (= 2.1.0)
   childprocess (= 0.3.6)
