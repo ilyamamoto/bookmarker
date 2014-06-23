@@ -1,0 +1,4 @@
+= form_for @webpage_new, :html => { :class => "form-inline" } do |f|
+  = f.text_field :url, class: 'text_field span span10', placeholder: "Input URL"
+  = f.submit label_submit, class: 'btn btn-primary span span2 offset2' 
+    '

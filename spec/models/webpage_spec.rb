@@ -1,3 +1,5 @@
+# test with internet connection!
+
 require 'spec_helper'
 
 describe Webpage do
@@ -74,6 +76,7 @@ describe Webpage do
 		describe "#register" do
 			let(:webpage) { Webpage.new(url: "http://example.com") }
 			it "should get :html, :title, :content filled" do
+				# if no NoSocketError.
 				expect(webpage.html).not_to be_blank
 				expect(webpage.title).not_to be_blank
 				expect(webpage.content).not_to be_blank

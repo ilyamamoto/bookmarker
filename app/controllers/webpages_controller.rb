@@ -15,6 +15,7 @@ class WebpagesController < ApplicationController
 	end
 
 	def index
+		#@webpage_new = Webpage.new
 		@webpages = Webpage.all
 	end
 

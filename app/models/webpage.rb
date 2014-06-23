@@ -18,24 +18,36 @@ class Webpage < ActiveRecord::Base
 	@@tfidf = TfIdf::Ja.new
 
 	def register
-		fetch
-		get_content
-		save
+		if fetched?
+			get_content
+			save
+		end
 	end
 
 	def analyze
-		analyze_morpheme
-		set_keywords
-		analyze_tfidf
-		analyze_kakariuke
-		save_keywords_and_relationships
+		if fetched?
+			analyze_morpheme
+			set_keywords
+			analyze_tfidf
+			analyze_kakariuke
+			save_keywords_and_relationships
+		end
 	end
 
 	private
 
+		def fetched?
+			fetch if @fetched.nil?
+			@fetched
+		end
+
 		def fetch
 			@html_raw = open(self.url).read
 			self.html = URI.escape(@html_raw)
+			@fetched = true
+		rescue SocketError => e 
+			@html_raw = self.html = e.inspect 
+			@fetched = false
 		end
 		
 		def get_title # deprecated: covered by #get_content
