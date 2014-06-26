@@ -1,0 +1,18 @@
+- model_class = Webpage
+table.table.table-hover.col-md-12
+  thead
+    tr
+      th= model_class.human_attribute_name(:title)
+      th= model_class.human_attribute_name(:keywords)
+      th= model_class.human_attribute_name(:created_at)
+      th=t '.actions', :default => t("helpers.actions")
+  tbody
+    - webpages.each do |webpage|
+      - keywords = webpage.keywords[0..3]
+      tr
+        td= link_to webpage.title, webpage_path(webpage)
+        td= render 'shared/keywords_in_cell', keywords: keywords
+        td= webpage.created_at
+        td
+          = link_to t('.destroy', :default => t("helpers.links.destroy")), webpage_path(webpage), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
+

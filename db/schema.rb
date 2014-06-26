@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618112342) do
+ActiveRecord::Schema.define(version: 20140624090959) do
 
   create_table "keywords", force: true do |t|
     t.string   "name",       null: false
@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 20140618112342) do
   create_table "webpages", force: true do |t|
     t.text     "url",        null: false
     t.string   "title",      null: false
-    t.text     "html",       null: false
     t.text     "content",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"

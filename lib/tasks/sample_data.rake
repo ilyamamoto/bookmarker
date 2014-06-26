@@ -8,9 +8,11 @@ namespace :db do
 end
 
 def make_webpages
-	100.times do |n|
-		url = 'http://example.com/'
-		w = Webpage.create!(url: url)
+	30.times do |n|
+		url = "http://ja.wikipedia.org/wiki/#{n}"
+		p url
+		w = Webpage.new(url: url)
+		w.register
 		w.analyze
 	end
 end

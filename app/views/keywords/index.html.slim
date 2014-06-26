@@ -1,20 +1,12 @@
 - model_class = Keyword
-div class="page-header"
-  h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
-table class="table table-striped"
-  thead
-    tr
-      th= model_class.human_attribute_name(:id)
-      th= model_class.human_attribute_name(:name)
-      th= model_class.human_attribute_name(:created_at)
-      th=t '.actions', :default => t("helpers.actions")
-  tbody
-    - @keywords.each do |keyword|
-      tr
-        td= link_to keyword.id, keyword_path(keyword)
-        td= keyword.name
-        td=l keyword.created_at
-        td
-          '
+- provide(:title, 'Keywords')
 
+div.page-header
+  h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
+
+- @keywords.each do |keyword|
+  div= link_to keyword_path(keyword)
+    button.btn.btn-default.btn-lg.keyword type='button'
+      = keyword.name
+  = render 'shared/webpages', webpages: keyword.webpages.limit(3)
 

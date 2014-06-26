@@ -6,10 +6,10 @@ require 'tfidf_ja'
 
 class Webpage < ActiveRecord::Base
 	has_many :relationships, dependent: :destroy
-	has_many :keywords, through: :relationships
+	has_many :keywords, through: :relationships, order: 'relationships.significance DESC'
 
 	validates :url, presence: true
-	validate :url_should_be_valid
+	validate :url_should_be_valid, on: :create
 
 	#after_initialize :register,
 	#	if: Proc.new { |webpage| !webpage.url.nil? }
@@ -19,6 +19,7 @@ class Webpage < ActiveRecord::Base
 
 	def register
 		if fetched?
+			get_title
 			get_content
 			save
 		end
@@ -43,10 +44,10 @@ class Webpage < ActiveRecord::Base
 
 		def fetch
 			@html_raw = open(self.url).read
-			self.html = URI.escape(@html_raw)
+			@html = URI.escape(@html_raw)
 			@fetched = true
-		rescue SocketError => e 
-			@html_raw = self.html = e.inspect 
+		rescue => e 
+			@html_raw = e.inspect 
 			@fetched = false
 		end
 		
@@ -56,17 +57,19 @@ class Webpage < ActiveRecord::Base
 		end
 
 		def get_content
-			content, title = ExtractContent.analyse(@html_raw)
-			self.content = content 
+			@content, title = ExtractContent.analyse(@html_raw)
+			self.content = @content 
 			self.title ||= title
 		end
 
 		def analyze_morpheme
-			@morphemes = @@natto.parse_as_nodes(self.content)
+			@morphemes = @@natto.parse_as_nodes(@content)
 		end
 		
 		def set_keywords
-			@words = @morphemes.map{ |n| n.surface }.uniq
+			@words = @morphemes
+				.select{ |n| n.jiritsu? }
+				.map{ |n| n.surface }.uniq
 		end
 
 		def analyze_tfidf
@@ -112,4 +115,16 @@ class Webpage < ActiveRecord::Base
 			end
 		end
 
+end
+
+class Natto::MeCabNode
+	def features
+		self.feature.split(',')
+	end
+
+	def jiritsu?
+		!['助詞', '助動詞', '記号', 'フィラー', 'BOS/EOS'].include?(features[0]) &&
+		!['非自立'].include?(features[1]) &&
+		!['サ変・スル'].include?(features[4])
+	end
 end

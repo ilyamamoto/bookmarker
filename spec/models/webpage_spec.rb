@@ -11,7 +11,6 @@ describe Webpage do
 			it "should respond to instance accessors" do
 				should respond_to(:url)
 				should respond_to(:title)
-				should respond_to(:html)
 				should respond_to(:content)
 			end
 
@@ -75,16 +74,20 @@ describe Webpage do
 	describe "instance methods" do
 		describe "#register" do
 			let(:webpage) { Webpage.new(url: "http://example.com") }
-			it "should get :html, :title, :content filled" do
+			before do
+				webpage.register
+			end
+
+			it "should get, :title, :content filled" do
 				# if no NoSocketError.
-				expect(webpage.html).not_to be_blank
 				expect(webpage.title).not_to be_blank
 				expect(webpage.content).not_to be_blank
 			end
 
 			it "should save to database" do
 				expect do
-					Webpage.new(url: "http://example.com")
+					webpage = Webpage.new(url: "http://example.com")
+					webpage.register
 				end.to change(Webpage, :count).by(1)
 			end
 
@@ -92,8 +95,8 @@ describe Webpage do
 		end
 
 		describe "#analyze" do
-			let!(:webpage) { Webpage.create(url: "http://example.com") }
-			before { webpage.analyze }
+			let!(:webpage) { Webpage.new(url: "http://example.com") }
+			before { webpage.register; webpage.analyze }
 			it "should save Keyword and Relationship object to database" do
 				relationship = Relationship.find_by(webpage_id: webpage.id)
 				expect(relationship).not_to be_nil
